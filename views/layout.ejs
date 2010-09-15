@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Game Server - <%= title %></title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="/css/reset.css" />
+		<link rel="stylesheet" href="/css/text.css" />
+		<link rel="stylesheet" href="/css/960.css" />
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/smoothness/jquery-ui.css">
+	</head>
+	<body>
+		<div class="container_12" id="header">
+			<p><a href="/">Home</a> | <a href="/players/">Players</a> | <a href="/maps/">Maps</a></p>
+			<h1>Game Server - <%= title %></h1>
+		</div>
+		<div class="container_12" id="container">
+		<%- body %>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+<div id="edit_player_form">
+	<p>You can edit this player:</p>
+	<form method="POST">
+		<input type="hidden" name="id" id="player_id" value="<%= player.id %>">
+		<p>
+			<label for="player_name">Player Name:</label><br>
+			<input type="text" name="name" id="player_name" value="<%= player.name %>">
+		</p>
+	
+		<p>
+			<label for="player_ontick">Player onTick Code:</label><br>
+			<textarea name="ontick" id="player_ontick" rows="15" cols="60"><%= player.onTick %></textarea>
+		</p>
+	
+		<p>
+			<input type="submit" value="Save"> <button id="delete_player" style="float: right;">Delete</button>
+		</p>
+	</form>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$("button, input:submit").button();
+		
+		$('#edit_player_form form').submit(function(){
+			var id = $.trim($('#player_id').val());
+			
+			var name = $.trim($('#player_name').val());
+			if (!name){
+				$("#player_name").effect('pulsate', {}, 'fast');
+			}
+		
+			var onTick = $.trim($('#player_ontick').val());
+			if (!onTick){
+				$("#player_ontick").effect('pulsate', {}, 'fast');
+			}
+		
+			if (!name || !onTick) return false;
+			$.post('/api/edit_player.json', { id: id, name: name, onTick: onTick }, function(data){
+				if (data.ok){
+					window.location.reload();
+				}
+				else{
+					alert('Error: '+data.error);
+				}
+			}, 'json');
+			return false;
+		});
+		
+		$('#delete_player').click(function(){
+			if (confirm('Are you sure you want to delete this player?')){
+				var id = $.trim($('#player_id').val());
+				
+				$.post('/api/delete_player.json', { id: id }, function(data){
+					if (data.ok){
+						window.location.reload();
+					}
+					else{
+						alert('Error: '+data.error);
+					}
+				}, 'json');
+			}
+			
+			return false;
+		});
+	});
+</script>

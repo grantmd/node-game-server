@@ -1,0 +1,65 @@
+<p>Players currently on this server:</p>
+<ul id="players">
+	<% for (var i in players) { %>
+	<li id="player_<%= players[i].id %>"><a href="/players/<%= players[i].id %>"><%= players[i].name %></a></li>
+	<% } %>
+	
+	<li id="create_player"><a href="#">Create a new player</a></li>
+
+</ul>
+
+<div id="create_player_form">
+	<form method="POST">
+		<p>
+			<label for="player_name">Player Name:</label><br>
+			<input type="text" name="name" id="player_name">
+		</p>
+		
+		<p>
+			<label for="player_ontick">Player onTick:</label><br>
+			<textarea name="ontick" id="player_ontick" rows="15" cols="60"></textarea>
+		</p>
+		
+		<p>
+			<input type="submit" value="Save">
+		</p>
+	</form>
+
+<script>
+	$(document).ready(function() {
+		$("input:submit").button();
+		$('#create_player_form').hide();
+		
+		$('#create_player a').click(function() {
+			$('#create_player_form').slideDown();
+			return false;
+		});
+		
+		$('#create_player_form form').submit(function() {
+			var name = $.trim($('#player_name').val());
+			if (!name){
+				$("#player_name").effect('pulsate', {}, 'fast');
+			}
+		
+			var onTick = $.trim($('#player_ontick').val());
+			if (!onTick){
+				$("#player_ontick").effect('pulsate', {}, 'fast');
+			}
+		
+			if (!name || !onTick) return false;
+			$.post('/api/create_player.json', { name: name, onTick: onTick }, function(data){
+				if (data.ok){
+					$('#create_player').before('<li id="player_'+data.id+'"><a href="'+data.id+'">'+name+'</a></li>');
+					$('#player_'+data.id).effect('highlight', {duration: 3000});
+					$('#player_name').val('');
+					$('#player_ontick').val('');
+					$('#create_player_form').slideUp();
+				}
+				else{
+					alert('Error: '+data.error);
+				}
+			}, 'json');
+			return false;
+		});
+	});
+</script>
