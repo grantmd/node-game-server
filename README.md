@@ -41,7 +41,13 @@ Additionally, player objects can store/retrieve arbitrary data in a private key/
 * `apiStore(key, value)` - `value` can be any data type.
 * `apiGet(key, callback)` - Calls the function defined by `callback` with the `value` associated with `key`, or `undefined` if there is no data for `key`.
 
+There are utility functions:
+
+* `log(msg)` - Echoes `msg` to node's console log. For debugging.
+
 ### Maps
+
+* Coming soon!
 
 TODO
 ----
