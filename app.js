@@ -3,7 +3,7 @@ var gs = require('./lib/gs');
 var webServer = require('./lib/web').Server;
 
 console.log('Starting game server');
-var gsServer = gs.createServer();
+var gsServer = gs.createServer(config);
 gsServer.start();
 
 console.log('Starting web server');
