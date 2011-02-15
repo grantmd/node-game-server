@@ -14,6 +14,7 @@
 	
 		<p>
 			<input type="submit" value="Save"> <button id="delete_player" style="float: right;">Delete</button>
+			<span id="saved" class="hide">Saved!</span>
 		</p>
 	</form>
 </div>
@@ -38,7 +39,8 @@
 			if (!name || !onTick) return false;
 			$.post('/api/edit_player.json', { id: id, name: name, onTick: onTick }, function(data){
 				if (data.ok){
-					window.location.reload();
+					//window.location.reload();
+					$("#saved").show('pulsate', {}, 'fast');
 				}
 				else{
 					alert('Error: '+data.error);
@@ -53,7 +55,8 @@
 				
 				$.post('/api/delete_player.json', { id: id }, function(data){
 					if (data.ok){
-						window.location.reload();
+						//window.location.reload();
+						window.location.pathname = '/players/';
 					}
 					else{
 						alert('Error: '+data.error);
