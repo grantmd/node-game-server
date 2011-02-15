@@ -9,6 +9,8 @@ Requirements
 * <a href="http://nodejs.org/">node</a>
 * <a href="http://code.google.com/p/redis/">redis</a>
 * <a href="http://expressjs.com/">express</a>
+* <a href="https://github.com/visionmedia/ejs">ejs</a>
+* <a href="https://github.com/mranney/node_redis">node_redis</a>
 
 Components
 ----------
