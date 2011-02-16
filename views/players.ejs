@@ -11,12 +11,19 @@
 <div id="create_player_form">
 	<form method="POST">
 		<p>
-			<label for="player_name">Player Name:</label><br>
+			<label for="player_name">Name:</label><br>
 			<input type="text" name="name" id="player_name">
 		</p>
 		
 		<p>
-			<label for="player_ontick">Player onTick:</label><br>
+			<label for="player_map">Map:</label><br>
+			<select name="map" id="player_map">
+				<option value="0">--None--</option>
+			</select>
+		</p>
+		
+		<p>
+			<label for="player_ontick">onTick Code:</label><br>
 			<textarea name="ontick" id="player_ontick" rows="15" cols="60"></textarea>
 		</p>
 		
@@ -30,6 +37,17 @@
 		$("input:submit").button();
 		$('#create_player_form').hide();
 		
+		$.getJSON('/api/list_maps.json', function(data) {
+				if (data.ok){
+					$.each(data.maps, function(key, value){   
+						$('#player_map').append($("<option></option>").attr("value", key).text(value)); 
+					});
+				}
+				else{
+					alert('Error listing maps: '+data.error);
+				}
+		});
+		
 		$('#create_player a').click(function() {
 			$('#create_player_form').slideDown();
 			return false;
@@ -40,23 +58,29 @@
 			if (!name){
 				$("#player_name").effect('pulsate', {}, 'fast');
 			}
+			
+			var map_id = parseInt($('#player_map').val());
+			if (!map_id){
+				$("#player_map").effect('pulsate', {}, 'fast');
+			}
 		
 			var onTick = $.trim($('#player_ontick').val());
 			if (!onTick){
 				$("#player_ontick").effect('pulsate', {}, 'fast');
 			}
 		
-			if (!name || !onTick) return false;
-			$.post('/api/create_player.json', { name: name, onTick: onTick }, function(data){
+			if (!name || !onTick || !map_id) return false;
+			$.post('/api/create_player.json', { name: name, onTick: onTick, map_id: map_id }, function(data){
 				if (data.ok){
-					$('#create_player').before('<li id="player_'+data.id+'"><a href="'+data.id+'">'+name+'</a></li>');
+					$('#create_player').before('<li id="player_'+escapeXML(data.id)+'"><a href="'+escapeXML(data.id)+'">'+escapeXML(name)+'</a></li>');
 					$('#player_'+data.id).effect('highlight', {duration: 3000});
 					$('#player_name').val('');
 					$('#player_ontick').val('');
+					$('#player_map').val(0);
 					$('#create_player_form').slideUp();
 				}
 				else{
-					alert('Error: '+data.error);
+					alert('Error creating player: '+data.error);
 				}
 			}, 'json');
 			return false;

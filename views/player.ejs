@@ -3,25 +3,46 @@
 	<form method="POST">
 		<input type="hidden" name="id" id="player_id" value="<%= player.id %>">
 		<p>
-			<label for="player_name">Player Name:</label><br>
+			<label for="player_name">Name:</label><br>
 			<input type="text" name="name" id="player_name" value="<%= player.name %>">
+		</p>
+		
+		<p>
+			<label for="player_map">Map:</label><br>
+			<select name="map" id="player_map">
+				<option value="0">--None--</option>
+			</select>
 		</p>
 	
 		<p>
-			<label for="player_ontick">Player onTick Code:</label><br>
+			<label for="player_ontick">onTick Code:</label><br>
 			<textarea name="ontick" id="player_ontick" rows="15" cols="60"><%= player.onTick %></textarea>
 		</p>
 	
 		<p>
 			<input type="submit" value="Save"> <button id="delete_player" style="float: right;">Delete</button>
-			<span id="saved" class="hide">Saved!</span>
+			<span id="saved" class="hide" style="color: green;"><b>Saved!</b></span>
+			<span id="error" class="hide" style="color: red;"><b>Error!</b></span>
 		</p>
 	</form>
 </div>
 
 <script>
+	var g_map_id = <%= player.map_id %>;
+
 	$(document).ready(function() {
 		$("button, input:submit").button();
+		
+		$.getJSON('/api/list_maps.json', function(data) {
+				if (data.ok){
+					$.each(data.maps, function(key, value){   
+						$('#player_map').append($("<option></option>").attr("value", key).text(value).attr('selected', key == g_map_id)); 
+					});
+				}
+				else{
+					alert('Error listing maps: '+data.error);
+				}
+		});
 		
 		$('#edit_player_form form').submit(function(){
 			var id = $.trim($('#player_id').val());
@@ -30,20 +51,29 @@
 			if (!name){
 				$("#player_name").effect('pulsate', {}, 'fast');
 			}
+			
+			var map_id = parseInt($('#player_map').val());
+			if (!map_id){
+				$("#player_map").effect('pulsate', {}, 'fast');
+			}
 		
 			var onTick = $.trim($('#player_ontick').val());
 			if (!onTick){
 				$("#player_ontick").effect('pulsate', {}, 'fast');
 			}
 		
-			if (!name || !onTick) return false;
-			$.post('/api/edit_player.json', { id: id, name: name, onTick: onTick }, function(data){
+			if (!name || !onTick || !map_id) return false;
+			$.post('/api/edit_player.json', { id: id, name: name, onTick: onTick, map_id: map_id }, function(data){
 				if (data.ok){
+					g_map_id = map_id;
 					//window.location.reload();
-					$("#saved").show('pulsate', {}, 'fast');
+					$("#error").hide();
+					$("#saved").show('pulsate', {}, 'slow', function(){ $("#saved").hide(); });
 				}
 				else{
-					alert('Error: '+data.error);
+					$("#saved").hide();
+					$("#error").show('pulsate', {}, 'slow', function(){ $("#error").hide(); });
+					alert('Error saving player: '+data.error);
 				}
 			}, 'json');
 			return false;
@@ -59,7 +89,7 @@
 						window.location.pathname = '/players/';
 					}
 					else{
-						alert('Error: '+data.error);
+						alert('Error deleting player: '+data.error);
 					}
 				}, 'json');
 			}

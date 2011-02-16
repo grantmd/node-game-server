@@ -16,14 +16,31 @@
 	
 		<p>
 			<input type="submit" value="Save"> <button id="delete_map" style="float: right;">Delete</button>
-			<span id="saved" class="hide">Saved!</span>
+			<span id="saved" class="hide"><b>Saved!</b></span>
+			<span id="error" class="hide" style="color: red;"><b>Error!</b></span>
 		</p>
 	</form>
+</div>
+
+<div>
+	<p>Players here:</p>
+	<ul id="players_list"></ul>
 </div>
 
 <script>
 	$(document).ready(function() {
 		$("button, input:submit").button();
+		
+		$.getJSON('/api/list_map_players.json?id='+<%= map.id %>, function(data) {
+				if (data.ok){
+					for (var i=0; i<data.players.length; i++){
+						$('#players_list').append('<li id="player_'+escapeXML(data.players[i].id)+'"><a href="/players/'+escapeXML(data.players[i].id)+'">'+escapeXML(data.players[i].name)+'</a></li>');
+					}
+				}
+				else{
+					alert('Error listing players: '+data.error);
+				}
+		});
 		
 		$('#edit_map_form form').submit(function(){
 			var id = $.trim($('#map_id').val());
@@ -46,10 +63,13 @@
 			$.post('/api/edit_map.json', args, function(data){
 				if (data.ok){
 					//window.location.reload();
-					$("#saved").show('pulsate', {}, 'fast');
+					$("#error").hide();
+					$("#saved").show('pulsate', {}, 'slow', function(){ $("#saved").hide(); });
 				}
 				else{
-					alert('Error: '+data.error);
+					$("#saved").hide();
+					$("#error").show('pulsate', {}, 'slow', function(){ $("#error").hide(); });
+					alert('Error updating map: '+data.error);
 				}
 			}, 'json');
 			return false;
@@ -65,7 +85,7 @@
 						window.location.pathname = '/maps/';
 					}
 					else{
-						alert('Error: '+data.error);
+						alert('Error deleting map: '+data.error);
 					}
 				}, 'json');
 			}

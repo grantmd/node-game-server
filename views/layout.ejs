@@ -13,6 +13,12 @@
 				display: none;
 			}
 		</style>
+		<script>
+			function escapeXML(s){
+				s = ""+s;
+				return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+			}
+		</script>
 	</head>
 	<body>
 		<div class="container_12" id="header">

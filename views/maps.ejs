@@ -54,7 +54,7 @@
 			
 			$.post('/api/create_map.json', args, function(data){
 				if (data.ok){
-					$('#create_map').before('<li id="map_'+data.id+'"><a href="'+data.id+'">'+name+'</a></li>');
+					$('#create_map').before('<li id="map_'+escapeXML(data.id)+'"><a href="'+escapeXML(data.id)+'">'+escapeXML(name)+'</a></li>');
 					$('#map_'+data.id).effect('highlight', {duration: 3000});
 					
 					for (var i in args){
