@@ -1,0 +1,73 @@
+<p>Maps currently on this server:</p>
+<ul id="maps">
+	<% for (var i in maps) { %>
+	<li id="map_<%= maps[i].id %>"><a href="/maps/<%= maps[i].id %>"><%= maps[i].name %></a></li>
+	<% } %>
+	
+	<li id="create_map"><a href="#">Create a new map</a></li>
+
+</ul>
+
+<div id="create_map_form">
+	<form method="POST">
+		<p>
+			<label for="map_name">Map Name:</label><br>
+			<input type="text" name="name" id="map_name">
+		</p>
+		
+		<p>
+			<label>Dimensions:</label><br>
+			<input type="text" name="width" id="map_width" value="0">
+			<input type="text" name="height" id="map_height" value="0">
+			<input type="text" name="depth" id="map_depth" value="0">
+		</p>
+		
+		<p>
+			<input type="submit" value="Save">
+		</p>
+	</form>
+
+<script>
+	$(document).ready(function() {
+		$("input:submit").button();
+		$('#create_map_form').hide();
+		
+		$('#create_map a').click(function() {
+			$('#create_map_form').slideDown();
+			return false;
+		});
+		
+		$('#create_map_form form').submit(function() {
+			var name = $.trim($('#map_name').val());
+			if (!name){
+				$("#map_name").effect('pulsate', {}, 'fast');
+			}
+		
+			if (!name) return false;
+			
+			var args = {
+				name: name,
+				width: $.trim($('#map_width').val()),
+				height: $.trim($('#map_height').val()),
+				depth: $.trim($('#map_width').val()),
+			};
+			
+			$.post('/api/create_map.json', args, function(data){
+				if (data.ok){
+					$('#create_map').before('<li id="map_'+data.id+'"><a href="'+data.id+'">'+name+'</a></li>');
+					$('#map_'+data.id).effect('highlight', {duration: 3000});
+					
+					for (var i in args){
+						$('#map_'+i).val('');
+					}
+					
+					$('#create_map_form').slideUp();
+				}
+				else{
+					alert('Error: '+data.error);
+				}
+			}, 'json');
+			return false;
+		});
+	});
+</script>

@@ -1,0 +1,76 @@
+<div id="edit_map_form">
+	<p>You can edit this map:</p>
+	<form method="POST">
+		<input type="hidden" name="id" id="map_id" value="<%= map.id %>">
+		<p>
+			<label for="map_name">Map Name:</label><br>
+			<input type="text" name="name" id="map_name" value="<%= map.name %>">
+		</p>
+		
+		<p>
+			<label>Dimensions:</label><br>
+			<input type="text" name="width" id="map_width" value="<%= map.width %>">
+			<input type="text" name="height" id="map_height" value="<%= map.height %>">
+			<input type="text" name="depth" id="map_depth" value="<%= map.depth %>">
+		</p>
+	
+		<p>
+			<input type="submit" value="Save"> <button id="delete_map" style="float: right;">Delete</button>
+			<span id="saved" class="hide">Saved!</span>
+		</p>
+	</form>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$("button, input:submit").button();
+		
+		$('#edit_map_form form').submit(function(){
+			var id = $.trim($('#map_id').val());
+			
+			var name = $.trim($('#map_name').val());
+			if (!name){
+				$("#map_name").effect('pulsate', {}, 'fast');
+			}
+		
+			if (!name) return false;
+			
+			var args = {
+				id: id,
+				name: name,
+				width: $.trim($('#map_width').val()),
+				height: $.trim($('#map_height').val()),
+				depth: $.trim($('#map_width').val()),
+			};
+			
+			$.post('/api/edit_map.json', args, function(data){
+				if (data.ok){
+					//window.location.reload();
+					$("#saved").show('pulsate', {}, 'fast');
+				}
+				else{
+					alert('Error: '+data.error);
+				}
+			}, 'json');
+			return false;
+		});
+		
+		$('#delete_map').click(function(){
+			if (confirm('Are you sure you want to delete this map?')){
+				var id = $.trim($('#map_id').val());
+				
+				$.post('/api/delete_map.json', { id: id }, function(data){
+					if (data.ok){
+						//window.location.reload();
+						window.location.pathname = '/maps/';
+					}
+					else{
+						alert('Error: '+data.error);
+					}
+				}, 'json');
+			}
+			
+			return false;
+		});
+	});
+</script>
