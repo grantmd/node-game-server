@@ -1,0 +1,25 @@
+{
+  "name": "node-game-server",
+  "version": "0.1.0",
+  "description": "A game server that runs in Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/grantmd/node-game-server.git"
+  },
+  "keywords": [
+    "node",
+    "game",
+    "server"
+  ],
+  "author": "Myles Grant <myles@mylesgrant.com>",
+  "license": "UNLICENSE",
+  "readmeFilename": "README.md",
+  "gitHead": "e5a8512d7b2c6eae1a1eb3b928541ecb2ce7fea3",
+  "bugs": {
+    "url": "https://github.com/grantmd/node-game-server/issues"
+  }
+}
