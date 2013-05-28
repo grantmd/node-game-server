@@ -36,6 +36,7 @@
   "dependencies": {
     "express": "*",
     "ejs": "*",
+    "ejs-locals": "*",
     "hiredis": "*",
     "redis": "*"
   }
