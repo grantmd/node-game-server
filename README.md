@@ -1,6 +1,8 @@
 node-game-server
 ================
 
+[![Build Status](https://travis-ci.org/grantmd/node-game-server.png)](https://travis-ci.org/grantmd/node-game-server)
+
 A game server that works for at least one specific game, in Node. Provides a web interface, http api, and a game logic runner. Intended initially as a proof-of-concept, may evolve into something that's actually useful!
 
 Requirements
