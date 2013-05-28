@@ -9,4 +9,3 @@ node_js:
 notifications:
   webhooks:
     - https://tinyspeck.dev.slack.com/services/hooks/travis?token=Ws5axmprkkSVItrdYlCPJ6FL
-    - http://postbin.ryanbigg.com/30c83293
