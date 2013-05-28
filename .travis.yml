@@ -7,3 +7,5 @@ node_js:
   - "0.6"
 services:
   - redis-server
+before_script:
+  - sh -c "if [ ! -f config.js ]; then cp config.sample.js config.js; fi"
