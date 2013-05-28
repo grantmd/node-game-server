@@ -7,4 +7,6 @@ node_js:
   - "0.6"
 
 notifications:
-  webhooks: https://tinyspeck.dev.slack.com/services/hooks/travis?token=Ws5axmprkkSVItrdYlCPJ6FL
+  webhooks:
+    - https://tinyspeck.dev.slack.com/services/hooks/travis?token=Ws5axmprkkSVItrdYlCPJ6FL
+    - http://postbin.ryanbigg.com/30c83293
