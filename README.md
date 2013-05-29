@@ -38,6 +38,10 @@ Player objects can manipulate the world using these functions:
 * `apiMove(x, y, z)` - Moves the player to the given position, if the map rules allow for it.
 * `apiGetPos()` - Returns the player's current position as a hash with `x`, `y`, and `z` keys.
 
+And get information about their world:
+
+* `apiGetPlayersHere()` - Returns an array of players at the current player's position, excluding the current player.
+
 Additionally, player objects can store/retrieve arbitrary data in a private key/value store:
 
 * `apiStore(key, value)` - `value` can be any data type.
