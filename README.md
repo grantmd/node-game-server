@@ -53,7 +53,7 @@ There are utility functions:
 
 ### Maps
 
-* Coming soon!
+* `apiGetMapBounds` - Returns the bounds of the current map as a hash with `width`, `height`, and `depth` keys.
 
 TODO
 ----
