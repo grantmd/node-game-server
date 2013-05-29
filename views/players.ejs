@@ -26,7 +26,18 @@
 		
 		<p>
 			<label for="player_ontick">onTick Code:</label><br>
-			<textarea name="ontick" id="player_ontick" rows="15" cols="60"></textarea>
+			<textarea name="ontick" id="player_ontick" rows="15" cols="60">
+var pos = apiGetPos();
+log('current position: '+pos.x+','+pos.y+','+pos.z);
+
+var x = Math.round(Math.random()*2-1);
+var y = Math.round(Math.random()*2-1);
+var z = Math.round(Math.random()*2-1);
+if (apiMove(pos.x+x, pos.y+y, pos.z+z)){
+	pos = apiGetPos();
+	log('new position: '+pos.x+','+pos.y+','+pos.z);
+}
+			</textarea>
 		</p>
 		
 		<p>
