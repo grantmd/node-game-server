@@ -40,7 +40,7 @@ Player objects can manipulate the world using these functions:
 
 And get information about their world:
 
-* `apiGetPlayersHere()` - Returns an array of players at the current player's position, excluding the current player.
+* `apiGetPlayersHere(callback)` - Calls the function defined by `callback` with an array of players at the current player's position, excluding the current player.
 
 Additionally, player objects can store/retrieve arbitrary data in a private key/value store:
 
