@@ -31,7 +31,7 @@ Objects are run sandboxed and do not have direct access to server code or other 
 Player objects can define handlers for several events:
 
 * `onTick()` - Called every second since the player was instantiated (or reloaded).
-* `onCollision(id)` - If the player object collides with another, this handler is called with the `id` of the colliding player.
+* `onCollision(player)` - If the player object collides with another, this handler is called with the `player` hash of the colliding player.
 
 Player objects can manipulate the world using these functions:
 
