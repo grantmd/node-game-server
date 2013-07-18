@@ -1,0 +1,4 @@
+notify:
+  webhooks:
+    # A list of hashes representing hooks. Only the url field is supported.
+    - url: http://postbin.ryanbigg.com/74b656fb
