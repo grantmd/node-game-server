@@ -37,7 +37,7 @@
     "express": "^5.2.1",
     "ejs": "^5.0.2",
     "ejs-locals": "^1.0.2",
-    "redis": "^5.12.1"
+    "redis": "^6.0.0"
   },
   "overrides": {
     "ejs-locals": {
