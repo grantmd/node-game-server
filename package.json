@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "should": "^13.2.3",
-    "mocha": "^11.7.6"
+    "mocha": "^11.8.0"
   },
   "dependencies": {
     "express": "^5.2.1",
